@@ -2,6 +2,9 @@
 
 هذه Checklist عمل، وليست ادعاء بأن كل بند تم اختباره أو أن التطبيق جاهز للإنتاج.
 
+[x] = بند تم تأكيده أثناء المراجعة.
+[ ] = بند لم يُؤكَّد هنا بعد، وليس بالضرورة غير منفَّذ.
+
 ## ١. مراجعة الوظائف على آخر نسخة
 
 - [ ] وجود `return View(model)` داخل فرع !ModelState.IsValid في Edit POST.
@@ -17,37 +20,45 @@
 
 ## ٢. ملفات المستودع
 
-- [ ] ملفات المشروع والحل إن وجد، وكل Models/Controllers/ViewModels/Repositories/Mapping/Contexts.
-- [ ] Migrations وModel Snapshots لكل Context محفوظة في Git.
+- [x] ملفات المشروع والحل إن وجد، وكل Models/Controllers/ViewModels/Repositories/Mapping/Contexts.
+- [x] Migrations وModel Snapshots لكل Context محفوظة في Git.
 - [ ] ملفات Views وwwwroot الضرورية، بما يشمل مكتبات jQuery وBootstrap أو طريقة موثوقة لاستعادتها.
-- [ ] seed-demo.sql موجود داخل scripts.
-- [ ] README يطابق المشروع الفعلي ولا يذكر مميزات غير موجودة.
+- [x] seed-demo.sql موجود داخل scripts.
+- [x] README يطابق المشروع الفعلي ولا يذكر مميزات غير موجودة.
 - [ ] لا ملفات bin/obj/.vs أو قواعد بيانات أو نسخ احتياطية أو Logs شخصية.
 - [ ] لا Passwords أو Tokens أو Connection Strings ببيانات استضافة أو License Keys.
-- [ ] مراجعة appsettings.Development.json وlaunchSettings.json إن وجدا؛ .gitignore لا يحمي المحتوى تلقائيًا.
+- [x] مراجعة appsettings.Development.json وlaunchSettings.json إن وجدا؛ .gitignore لا يحمي المحتوى تلقائيًا.
 
 ## ٣. تجربة نسخة نظيفة بدون المساس ببياناتك
 
-- [ ] احفظ/Commit ملفاتك أولًا.
-- [ ] افتح نسخة ثانية في مجلد مختلف عن نسخة العمل.
-- [ ] استخدم قاعدة تدريب جديدة مثل AcademyHubTrainingDb_Verification وقاعدة حسابات جديدة مثل AcademyHubIdentityDb_Verification في النسخة الثانية فقط.
-- [ ] لا تنفّذ Drop-Database أو تحذف قواعدك الأصلية.
-- [ ] Restore ثم Build.
-- [ ] Update-Database -Context TrainingDbContext.
-- [ ] Update-Database -Context IdentityAppDbContext.
-- [ ] عدّل ExpectedDatabase في نسخة محلية من seed-demo.sql للاسم المؤقت، وشغّلها على قاعدة التحقق الجديدة.
-- [ ] شغّل seed ثانية وتأكد من عدم التكرار.
-- [ ] Register ثم Create/Edit/Delete بكورس الحساب الجديد.
-- [ ] راجع Default LocalDB configuration قبل رفع أي تعديلات خاصة بالاختبار.
+تم اختبار نسخة محلية منفصلة بقواعد بيانات جديدة. لم يُؤكَّد بعد تشغيل نسخة منزَّلة من GitHub بعد الرفع.
+
+- [x] حفظ ملفات العمل قبل إنشاء نسخة الاختبار.
+- [x] فتح نسخة ثانية في مجلد مختلف عن نسخة العمل.
+- [x] استخدام قاعدة تدريب جديدة AcademyHubTrainingDb_Verification وقاعدة حسابات جديدة AcademyHubIdentityDb_Verification في النسخة الثانية فقط.
+- [x] تنفيذ الاختبار بدون حذف قواعد البيانات الأصلية أو استخدام Drop-Database.
+- [x] نجاح Build في نسخة الاختبار.
+- [x] Update-Database -Context TrainingDbContext.
+- [x] Update-Database -Context IdentityAppDbContext.
+- [x] تشغيل نسخة محلية من seed-demo.sql على قاعدة التحقق الجديدة بعد ضبط اسم قاعدة البيانات المستهدفة.
+- [x] تشغيل seed ثانية والتأكد من عدم التكرار.
+- [x] Register ثم Create/Edit/Delete بكورس الحساب الجديد.
+- [x] الرجوع إلى المشروع الأصلي للنشر بدل نسخة الاختبار.
+- [ ] تنزيل أو Clone المستودع المنشور في مجلد جديد، ثم استعادة الحزم وتشغيله بقواعد بيانات اختبار جديدة للتأكد من اكتمال الملفات المرفوعة.
 
 ## ٤. العرض على GitHub وLinkedIn
 
+- [x] إنشاء مستودع GitHub ورفع ملفات المشروع والتوثيق.
+- [x] تحويل المستودع إلى Public والتأكد من ظهور الملفات والـREADME بدون تسجيل دخول.
+- [x] التأكد من فتح رابط Release Checklist من الـREADME.
 - [ ] Screenshots بحجم طبيعي، بدون بيانات حساب شخصية أو درجات طلاب حقيقيين.
 - [ ] فيديو مختصر يعرض Workflow حقيقيًا: إنشاء، تعديل، Validation، ومنع وصول غير صاحب الكورس.
-- [ ] وصف المشروع بأنه مشروع Backend تعليمي بإدارة كورسات، لا منصة LMS كاملة جاهزة للإنتاج.
-- [ ] رابط GitHub الحقيقي بعد إنشاء المستودع، وعدم إضافة رابط live demo قبل وجود نسخة منشورة فعلًا.
+- [ ] وصف المشروع في منشور LinkedIn بأنه مشروع Backend تعليمي بإدارة كورسات، لا منصة LMS كاملة جاهزة للإنتاج.
+- [ ] إضافة رابط المستودع الحقيقي إلى منشور LinkedIn، وعدم إضافة رابط live demo قبل وجود نسخة منشورة فعلًا.
 - [ ] تحديد قرار ترخيص الكود إذا رغبت؛ لم يُفترض ترخيص MIT أو غيره تلقائيًا.
 
 ## ملاحظة Git مهمة
 
-.gitignore تمنع إضافة ملفات غير متتبعة مستقبلًا. لو ملف حساس متتبع بالفعل، مجرد إضافته إلى .gitignore لا يزيله من Git أو تاريخه. افحص git status وgit ls-files قبل الرفع. لو سبق نشر سر، ألغِه/غيّره بدل الاكتفاء بحذفه من الملف الحالي.
+.gitignore تمنع إضافة ملفات غير متتبعة مستقبلًا. لو ملف حساس متتبع بالفعل، مجرد إضافته إلى .gitignore لا يزيله من Git أو تاريخه.
+
+افحص git status وgit ls-files قبل الرفع. لو سبق نشر سر، ألغِه/غيّره بدل الاكتفاء بحذفه من الملف الحالي.
