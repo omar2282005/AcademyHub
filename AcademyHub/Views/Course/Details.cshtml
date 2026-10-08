@@ -1,0 +1,180 @@
+@model AcademyHub.ViewModel.CourseDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.CourseName;
+
+    var students = Model.Students ?? new List<AcademyHub.ViewModel.EnrolledStudentViewModel>();
+    var gradedStudents = students.Where(student => student.Grade.HasValue).ToList();
+    var averageGrade = gradedStudents.Count > 0
+        ? gradedStudents.Average(student => student.Grade!.Value)
+        : (double?)null;
+    var passRate = gradedStudents.Count > 0
+        ? (int?)Math.Round(gradedStudents.Count(student => student.Grade!.Value >= 60) * 100.0 / gradedStudents.Count)
+        : null;
+    var instructorInitial = string.IsNullOrWhiteSpace(Model.InstructorName)
+        ? "?"
+        : Model.InstructorName.Trim()[..1].ToUpperInvariant();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/course-details.css" asp-append-version="true" />
+}
+
+<section class="course-details">
+    <a class="details-back" asp-controller="Course" asp-action="Index">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="m15 18-6-6 6-6"></path>
+        </svg>
+        Back to courses
+    </a>
+
+    <header class="details-hero">
+        <div>
+            <span class="details-eyebrow">Course · #@Model.CourseId</span>
+            <h1><bdi>@Model.CourseName</bdi></h1>
+            <div class="details-meta">
+                <span class="details-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M4 21a8 8 0 0 1 16 0"></path>
+                    </svg>
+                    <bdi>@Model.InstructorName</bdi>
+                </span>
+                <span class="details-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                    </svg>
+                    @Model.StudentCount enrolled
+                </span>
+            </div>
+        </div>
+        <div class="details-mark" aria-hidden="true">AH</div>
+    </header>
+
+    <div class="details-stats" aria-label="Course performance summary">
+        <div class="details-stat details-stat--accent">
+            <span class="details-stat__label">Enrolled</span>
+            <span class="details-stat__value">@Model.StudentCount <small>students</small></span>
+            <span class="details-stat__note">Current enrollment records</span>
+        </div>
+        <div class="details-stat">
+            <span class="details-stat__label">Average grade</span>
+            <span class="details-stat__value">
+                @(averageGrade.HasValue ? averageGrade.Value.ToString("0.#") : "—")
+                <small>@(averageGrade.HasValue ? "%" : "No grades")</small>
+            </span>
+            <span class="details-stat__note">Based on @gradedStudents.Count graded students</span>
+        </div>
+        <div class="details-stat">
+            <span class="details-stat__label">Pass rate</span>
+            <span class="details-stat__value">
+                @(passRate.HasValue ? passRate.Value.ToString() : "—")
+                <small>@(passRate.HasValue ? "%" : "No grades")</small>
+            </span>
+            <span class="details-stat__note">Pass threshold is 60%</span>
+        </div>
+    </div>
+
+    <div class="details-grid">
+        <section class="details-card" aria-labelledby="studentsHeading">
+            <header class="details-card__head">
+                <div>
+                    <h2 id="studentsHeading">Enrolled students</h2>
+                    <p>Enrollment date and current grade for every student.</p>
+                </div>
+                <span class="details-count">@students.Count</span>
+            </header>
+
+            @if (students.Count > 0)
+            {
+                <div class="student-columns" aria-hidden="true">
+                    <span>Student</span>
+                    <span>Enrolled</span>
+                    <span>Grade</span>
+                </div>
+
+                @foreach (var item in students)
+                {
+                    var studentInitial = string.IsNullOrWhiteSpace(item.StudentName)
+                        ? "?"
+                        : item.StudentName.Trim()[..1].ToUpperInvariant();
+                    var gradeClass = !item.Grade.HasValue
+                        ? "grade--pending"
+                        : item.Grade.Value >= 85
+                            ? "grade--excellent"
+                            : item.Grade.Value >= 60
+                                ? "grade--pass"
+                                : "grade--low";
+
+                    <article class="student-row">
+                        <div class="student-person">
+                            <span class="student-avatar" aria-hidden="true">@studentInitial</span>
+                            <bdi class="student-name">@item.StudentName</bdi>
+                        </div>
+
+                        <time class="student-date" datetime="@item.EnrolledAt.ToString("yyyy-MM-dd")">
+                            @item.EnrolledAt.ToString("dd MMM yyyy")
+                        </time>
+
+                        @if (item.Grade.HasValue)
+                        {
+                            <span class="grade @gradeClass">@item.Grade.Value.ToString("0.#")%</span>
+                        }
+                        else
+                        {
+                            <span class="grade grade--pending">Pending</span>
+                        }
+                    </article>
+                }
+            }
+            else
+            {
+                <div class="students-empty">
+                    <div class="students-empty__mark" aria-hidden="true">0</div>
+                    <h3>No students enrolled yet</h3>
+                    <p>Enrollment records will appear here automatically.</p>
+                </div>
+            }
+        </section>
+
+        <aside class="details-card instructor-card" aria-labelledby="instructorHeading">
+            <span class="instructor-label">Course instructor</span>
+
+            <div class="instructor-head">
+                <div class="instructor-avatar" aria-hidden="true">@instructorInitial</div>
+                <div>
+                    <h2 id="instructorHeading"><bdi>@Model.InstructorName</bdi></h2>
+                    <span class="instructor-role">Instructor</span>
+                </div>
+            </div>
+
+            <p class="instructor-bio @(string.IsNullOrWhiteSpace(Model.InstructorBio) ? "instructor-bio--empty" : "")">
+                @if (string.IsNullOrWhiteSpace(Model.InstructorBio))
+                {
+                    <text>No instructor biography is available yet.</text>
+                }
+                else
+                {
+                    @Model.InstructorBio
+                }
+            </p>
+
+            <div class="course-facts">
+                <div class="course-fact">
+                    <span>Course ID</span>
+                    <strong>#@Model.CourseId</strong>
+                </div>
+                <div class="course-fact">
+                    <span>Students</span>
+                    <strong>@Model.StudentCount</strong>
+                </div>
+                <div class="course-fact">
+                    <span>Graded</span>
+                    <strong>@gradedStudents.Count</strong>
+                </div>
+            </div>
+        </aside>
+    </div>
+</section>

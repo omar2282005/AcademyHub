@@ -1,0 +1,59 @@
+@model AcademyHub.ViewModel.EditCourseViewModel
+@{
+    ViewData["Title"] = "Edit course";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/course-edit.css" asp-append-version="true" />
+}
+
+<section class="ah-edit" aria-labelledby="edit-title">
+    <a asp-controller="Course" asp-action="Index" class="ah-edit__back">← Back to courses</a>
+    <p class="ah-edit__eyebrow">AcademyHub / Course #@Model.CourseId</p>
+    <h1 id="edit-title">Edit course</h1>
+    <p class="ah-edit__intro">Update the course title and assigned instructor.</p>
+
+    <div class="ah-edit__grid">
+        <form asp-controller="Course" asp-action="Edit" asp-route-id="@Model.CourseId"
+              method="post" class="ah-edit__form">
+            <input asp-for="CourseId" type="hidden" />
+
+            <div class="ah-edit__body">
+                <h2>Course information</h2>
+                <div asp-validation-summary="All" role="alert"></div>
+
+                <div class="ah-edit__field">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" class="ah-edit__control" maxlength="100"
+                           aria-describedby="title-help title-error" />
+                    <p id="title-help" class="ah-edit__help">Use a clear title. Maximum 100 characters.</p>
+                    <span asp-validation-for="Title" id="title-error"></span>
+                </div>
+
+                <div class="ah-edit__field">
+                    <label asp-for="InstructorId"></label>
+                    <select asp-for="InstructorId" asp-items="Model.Instructors"
+                            class="ah-edit__control" aria-describedby="instructor-error">
+                        <option value="">Select an instructor</option>
+                    </select>
+                    <span asp-validation-for="InstructorId" id="instructor-error"></span>
+                </div>
+            </div>
+
+            <div class="ah-edit__footer">
+                <a asp-controller="Course" asp-action="Index" class="ah-edit__button">Cancel</a>
+                <button type="submit" class="ah-edit__button ah-edit__button--primary">Save changes</button>
+            </div>
+        </form>
+
+        <aside class="ah-edit__note" aria-labelledby="note-title">
+            <h2 id="note-title">A focused update</h2>
+            <p>This form edits the course title and instructor only.</p>
+            <p>Course ownership, existing enrollments, and student grades are not editable here.</p>
+        </aside>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

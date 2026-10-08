@@ -1,0 +1,45 @@
+@{
+    ViewData["Title"] = "Home";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/home.css" asp-append-version="true" />
+}
+<section class="ah-home" aria-labelledby="home-title">
+    <div class="ah-home__hero">
+        <div class="ah-home__copy">
+            <p class="ah-page-eyebrow">AcademyHub / Course workspace</p>
+            <h1 id="home-title">A clear home for<br />your <span>next course.</span></h1>
+            <p class="ah-home__intro">Browse the catalog, meet the instructors, and keep course information in one focused workspace.</p>
+            <div class="ah-home__actions">
+                <a asp-controller="Course" asp-action="Index" class="ah-ui-button ah-ui-button--primary">Explore courses <span aria-hidden="true">↗</span></a>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-controller="Course" asp-action="Index" asp-fragment="createCourseHeading" class="ah-ui-button">Create a course</a>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-page="/Account/Register" class="ah-ui-button">Create an account</a>
+                }
+            </div>
+            <p class="ah-home__footnote">Browse without an account. Sign in to create and manage your own courses.</p>
+        </div>
+        <aside class="ah-home__workspace" aria-labelledby="workspace-title">
+            <div class="ah-home__workspace-head"><span class="ah-home__workspace-label">THE WORKSPACE</span><span aria-hidden="true">AH</span></div>
+            <h2 id="workspace-title">Course essentials.<br />Nothing in the way.</h2>
+            <ol class="ah-home__steps">
+                <li><span class="ah-home__number" aria-hidden="true">01</span><div><h3>A course, clearly defined</h3><p>A title and an assigned instructor.</p></div></li>
+                <li><span class="ah-home__number" aria-hidden="true">02</span><div><h3>The details that matter</h3><p>Instructor profiles, enrollments, and recorded grades.</p></div></li>
+                <li><span class="ah-home__number" aria-hidden="true">03</span><div><h3>Changes with ownership</h3><p>Course owners manage their own records.</p></div></li>
+            </ol>
+            <div class="ah-home__workspace-note">Built around a simple, deliberate workflow.</div>
+        </aside>
+    </div>
+    <section class="ah-home__features" aria-labelledby="features-title">
+        <div class="ah-home__section-head"><p class="ah-page-eyebrow">A focused workflow</p><h2 id="features-title">From catalog to course details.</h2></div>
+        <div class="ah-home__feature-grid">
+            <article><span class="ah-home__feature-index">01 / DISCOVER</span><h3>Find a course</h3><p>Search the loaded catalog by course title or instructor, then open a course to see its details.</p></article>
+            <article><span class="ah-home__feature-index">02 / UNDERSTAND</span><h3>See the full picture</h3><p>Review the instructor biography, enrolled students, and available grade information.</p></article>
+            <article><span class="ah-home__feature-index">03 / MANAGE</span><h3>Keep your courses current</h3><p>Create and edit your own courses. Courses with enrollment records are protected from deletion.</p></article>
+        </div>
+    </section>
+</section>

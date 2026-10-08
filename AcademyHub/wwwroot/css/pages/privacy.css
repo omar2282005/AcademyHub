@@ -1,0 +1,12 @@
+.ah-privacy { max-width:760px;margin-inline:auto; }
+.ah-privacy h1 { margin:0;font-size:clamp(32px,5vw,44px);letter-spacing:-.04em;line-height:1.15; }
+.ah-privacy__lead { margin:20px 0 28px;font-size:18px;line-height:1.7;color:var(--ah-ink-2); }
+.ah-privacy__notice { padding:20px 24px;border:1px solid #dcc099;border-radius:8px;background:#fff4e4;color:#6d4517;font-size:15px;line-height:1.7; }
+.ah-privacy__notice p { margin:8px 0 0; }
+.ah-privacy__sections { margin:32px 0; }
+.ah-privacy__sections section { display:grid;grid-template-columns:32px minmax(0,1fr);gap:20px;padding:24px 0;border-bottom:1px solid var(--ah-border); }
+.ah-privacy__sections section > span { padding-top:4px;font:600 12px/1.5 var(--ah-mono);color:#9d401e; }
+.ah-privacy h2 { margin:0 0 12px;font-size:20px;letter-spacing:-.02em; }
+.ah-privacy__sections p { margin:0;color:var(--ah-ink-2);font-size:16px;line-height:1.8; }
+.ah-privacy__sections p + p { margin-top:12px; }
+@media(max-width:480px) { .ah-privacy__sections section { gap:12px; } .ah-privacy__notice { padding:20px; } }

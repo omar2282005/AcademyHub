@@ -1,0 +1,75 @@
+@model AcademyHub.ViewModel.CourseDetailsViewModel
+@{
+    ViewData["Title"] = "Delete course";
+    var deletionBlocked = Model.StudentCount > 0;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/course-delete.css" asp-append-version="true" />
+}
+
+<section class="ah-delete" aria-labelledby="delete-title">
+    <a asp-controller="Course" asp-action="Index" class="ah-delete__back">← Back to courses</a>
+    <p class="ah-delete__eyebrow">AcademyHub / Course #@Model.CourseId</p>
+    <h1 id="delete-title">@(deletionBlocked ? "Deletion unavailable" : "Delete course?")</h1>
+    <p class="ah-delete__intro">
+        @(deletionBlocked
+            ? "This course has enrollment records and cannot be deleted."
+            : "Review the course below before confirming. This action cannot be undone.")
+    </p>
+
+    <div class="ah-delete__grid">
+        <section class="ah-delete__form" aria-labelledby="course-info-title">
+            <div class="ah-delete__body">
+                <h2 id="course-info-title">Course information</h2>
+                <div asp-validation-summary="All" role="alert"></div>
+                <dl class="ah-delete__facts">
+                    <div class="ah-delete__fact">
+                        <dt>Course name</dt>
+                        <dd><bdi>@Model.CourseName</bdi></dd>
+                    </div>
+                    <div class="ah-delete__fact">
+                        <dt>Instructor</dt>
+                        <dd><bdi>@Model.InstructorName</bdi></dd>
+                    </div>
+                    <div class="ah-delete__fact">
+                        <dt>Enrolled students</dt>
+                        <dd>@Model.StudentCount</dd>
+                    </div>
+                </dl>
+                @if (deletionBlocked)
+                {
+                    <div class="ah-delete__notice">
+                        <strong>Enrollment records are protected.</strong>
+                        Deleting a course with enrollments is not allowed. No data has been deleted.
+                    </div>
+                }
+            </div>
+
+            @if (deletionBlocked)
+            {
+                <div class="ah-delete__footer">
+                    <a asp-controller="Course" asp-action="Details" asp-route-id="@Model.CourseId"
+                       class="ah-delete__button">View course</a>
+                    <a asp-controller="Course" asp-action="Index" class="ah-delete__button">Back to courses</a>
+                </div>
+            }
+            else
+            {
+                <form asp-controller="Course" asp-action="Delete" asp-route-id="@Model.CourseId"
+                      method="post" class="ah-delete__footer">
+                    <input type="hidden" name="id" value="@Model.CourseId" />
+                    <a asp-controller="Course" asp-action="Index" class="ah-delete__button">Cancel</a>
+                    <button type="submit" class="ah-delete__button ah-delete__button--danger">Delete course</button>
+                </form>
+            }
+        </section>
+
+        <aside class="ah-delete__note" aria-labelledby="policy-title">
+            <h2 id="policy-title">Before you confirm</h2>
+            <p>Only the course owner can delete this course.</p>
+            <p>The server checks ownership and enrollments again when you submit.</p>
+            <p>Deleting a course does not delete its instructor.</p>
+        </aside>
+    </div>
+</section>

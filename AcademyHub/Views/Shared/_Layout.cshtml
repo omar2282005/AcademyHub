@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fcfbf9" />
+    <title>@ViewData["Title"] · AcademyHub</title>
+
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AcademyHub.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="ah-body">
+    <a class="ah-skip-link" href="#main-content">Skip to content</a>
+    <header class="ah-topbar">
+        <div class="ah-shell ah-nav">
+            <a class="ah-brand" asp-area="" asp-controller="Home" asp-action="Index" aria-label="AcademyHub home">
+                <span class="ah-brand__mark" aria-hidden="true">AH</span>
+                <span>AcademyHub</span>
+            </a>
+
+            <nav class="ah-nav__links" aria-label="Primary navigation">
+                <a class="ah-nav__link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <a class="ah-nav__link" asp-area="" asp-controller="Course" asp-action="Index">Courses</a>
+            </nav>
+            <partial name="_LoginPartial" />
+        </div>
+    </header>
+
+    <main id="main-content" class="ah-shell ah-main" role="main" tabindex="-1">
+        @RenderBody()
+    </main>
+
+    <footer class="ah-footer">
+        <div class="ah-shell ah-footer__inner">
+            <span>&copy; 2026 AcademyHub</span>
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy &amp; demo use</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,56 @@
+# .NET build output
+[Bb]in/
+[Oo]bj/
+artifacts/
+
+# Visual Studio / JetBrains / local workspace state
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+*.DotSettings.user
+
+# Test output / coverage
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Local databases and backups: never publish personal/account databases
+*.mdf
+*.ldf
+*.ndf
+*.bak
+*.bacpac
+
+# Secrets, local environment overrides, certificates
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+appsettings.*.Local.json
+*.pfx
+*.p12
+*.key
+secrets.json
+
+# Logs / temporary output
+logs/
+*.log
+*.tmp
+*.temp
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Intentionally NOT ignored:
+# appsettings.json with credential-free LocalDB configuration
+# appsettings.Development.json (review it for secrets before committing)
+# Properties/launchSettings.json (review it for secrets before committing)
+# EF migrations and model snapshots
+# source files, Views, wwwroot, README, scripts, solution/project files

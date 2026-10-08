@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Privacy & demo use";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/privacy.css" asp-append-version="true" />
+}
+<section class="ah-privacy" aria-labelledby="privacy-title">
+    <p class="ah-page-eyebrow">AcademyHub / About your data</p>
+    <h1 id="privacy-title">Privacy &amp; demo use</h1>
+    <p class="ah-privacy__lead">AcademyHub is a learning project. Use fictional course and student data, and a password created specifically for this demo.</p>
+    <div class="ah-privacy__notice"><strong>Demo notice, not a production privacy policy.</strong><p>This page describes the current project workflow. A public deployment requires a reviewed policy covering the actual hosting, retention, providers, and contact details.</p></div>
+    <div class="ah-privacy__sections">
+        <section><span>01</span><div><h2>Account information</h2><p>Registration stores account information through ASP.NET Core Identity in the accounts database. Passwords are stored as hashes, not plain text.</p></div></section>
+        <section><span>02</span><div><h2>Course and enrollment data</h2><p>Course, instructor, student, and enrollment records are stored in a separate training database. Course ownership is recorded using the account identifier.</p><p>Course details can be viewed without signing in, including student names and recorded grades. Do not enter real student records or other sensitive information in this demo.</p></div></section>
+        <section><span>03</span><div><h2>Authentication and form protection</h2><p>The application uses cookies for authentication and antiforgery protection for form submissions. Signing out ends the current authentication session.</p></div></section>
+        <section><span>04</span><div><h2>Project limitations</h2><p>This version does not provide a complete data-export or account-and-training-data deletion workflow. Do not assume that deleting an account removes course or enrollment records stored in the other database.</p></div></section>
+    </div>
+    <a asp-controller="Course" asp-action="Index" class="ah-ui-button">Back to courses</a>
+</section>

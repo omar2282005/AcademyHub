@@ -1,0 +1,35 @@
+@using Microsoft.AspNetCore.Identity
+@using AcademyHub.Identity
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<ApplicationUser> SignInManager
+
+<ul class="navbar-nav ah-account">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item ah-account__item">
+            <a class="nav-link ah-account__link ah-account__name"
+               asp-area="Identity" asp-page="/Account/Manage/Index"
+               title="@User.Identity?.Name">
+                <span class="ah-account__dot" aria-hidden="true"></span>
+                <span class="ah-account__username">@User.Identity?.Name</span>
+                <span class="ah-account__manage">Account</span>
+            </a>
+        </li>
+        <li class="nav-item ah-account__item">
+            <form asp-area="Identity" asp-page="/Account/Logout"
+                  asp-route-returnUrl="@Url.Action("Index", "Course", new { area = "" })"
+                  method="post" class="ah-account__form">
+                <button type="submit" class="nav-link ah-account__link ah-account__logout">Sign out</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item ah-account__item">
+            <a class="nav-link ah-account__link" asp-area="Identity" asp-page="/Account/Login">Sign in</a>
+        </li>
+        <li class="nav-item ah-account__item">
+            <a class="nav-link ah-account__link ah-account__register" asp-area="Identity" asp-page="/Account/Register">Create account</a>
+        </li>
+    }
+</ul>

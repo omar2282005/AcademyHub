@@ -1,0 +1,9 @@
+.ah-error { max-width:680px;margin:40px auto;text-align:center; }
+.ah-error__symbol { display:grid;place-items:center;width:64px;height:64px;margin:0 auto 24px;border:1px solid #d9a299;border-radius:12px;background:var(--ah-red-soft);color:var(--ah-red);font:600 32px/1 var(--ah-mono); }
+.ah-error h1 { margin:0;font-size:clamp(30px,5vw,44px);letter-spacing:-.04em;line-height:1.2; }
+.ah-error__copy { margin:20px auto;font-size:18px;color:var(--ah-ink-2);line-height:1.7; }
+.ah-error__warning { color:var(--ah-muted);font-size:14px;line-height:1.7; }
+.ah-error__reference { display:flex;flex-direction:column;gap:8px;margin:28px auto;padding:16px;border:1px solid var(--ah-border);border-radius:8px;background:var(--ah-surface);font-size:14px; }
+.ah-error__reference code { overflow-wrap:anywhere;color:var(--ah-ink-2);font-size:13px; }
+.ah-error__actions { display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:28px; }
+@media(max-width:480px) { .ah-error { margin:24px auto; } .ah-error__actions a { flex:1 1 100%; } }

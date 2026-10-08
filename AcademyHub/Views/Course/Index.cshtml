@@ -1,0 +1,212 @@
+@model AcademyHub.ViewModel.CourseIndexViewModel
+@using Microsoft.AspNetCore.Identity
+@using AcademyHub.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Courses";
+    var currentUserId = UserManager.GetUserId(User);
+    var successMessage = TempData["SuccessMessage"] as string;
+    var courses = Model.Courses ?? new List<AcademyHub.ViewModel.CourseListItemViewModel>();
+    var totalCourses = courses.Count;
+    var instructorCount = courses
+        .Where(course => !string.IsNullOrWhiteSpace(course.InstructorName))
+        .Select(course => course.InstructorName)
+        .Distinct(StringComparer.OrdinalIgnoreCase)
+        .Count();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/course-index.css" asp-append-version="true" />
+}
+
+<section class="catalog">
+    @if (!string.IsNullOrWhiteSpace(successMessage))
+    {
+        <div class="catalog-feedback" role="status" data-success-message>
+            <span aria-hidden="true">✓</span>
+            <span class="catalog-feedback__message">@successMessage</span>
+            <button type="button" class="catalog-feedback__close"
+                    aria-label="Dismiss success message" data-dismiss-success>×</button>
+        </div>
+    }
+
+    <header class="catalog-head">
+        <div>
+            <span class="catalog-eyebrow">Course catalog</span>
+            <h1>Build skills that <span>move forward.</span></h1>
+            <p class="catalog-intro">
+                Explore every AcademyHub course and meet the instructors guiding each learning track.
+            </p>
+        </div>
+
+        <div class="catalog-summary" aria-label="Catalog summary">
+            <div class="catalog-summary__item">
+                <span class="catalog-summary__value">@totalCourses</span>
+                <span class="catalog-summary__label">Courses</span>
+            </div>
+            <div class="catalog-summary__item">
+                <span class="catalog-summary__value">@instructorCount</span>
+                <span class="catalog-summary__label">Instructors</span>
+            </div>
+        </div>
+    </header>
+
+    @if (courses.Count > 0)
+    {
+        <div class="catalog-toolbar">
+            <label class="catalog-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m20 20-3.4-3.4"></path>
+                </svg>
+                <span class="visually-hidden">Search courses</span>
+                <input id="courseSearch" type="search" placeholder="Search by course or instructor" autocomplete="off" />
+            </label>
+            <span id="courseResultCount" class="catalog-result-count">@totalCourses courses</span>
+        </div>
+
+        <div class="catalog-panel">
+            <div class="catalog-columns" aria-hidden="true">
+                <span>ID</span>
+                <span>Course</span>
+                <span>Instructor</span>
+                <span></span>
+            </div>
+
+            <div id="courseRows">
+                @foreach (var item in courses)
+                {
+                    var initial = string.IsNullOrWhiteSpace(item.InstructorName)
+                    ? "?"
+                    : item.InstructorName.Trim()[..1].ToUpperInvariant();
+                    var searchText = $"{item.CourseName} {item.InstructorName}".ToLowerInvariant();
+
+                    <article class="catalog-row" data-course-row data-search="@searchText">
+                        <span class="course-id">#@item.CourseId</span>
+
+                        <div class="course-copy">
+                            <bdi class="course-name">@item.CourseName</bdi>
+                            <span class="course-note">Instructor-led learning track</span>
+                        </div>
+
+                        <div class="course-instructor">
+                            <span class="course-avatar" aria-hidden="true">@initial</span>
+                            <bdi class="course-instructor__name">@item.InstructorName</bdi>
+                        </div>
+
+                        <div class="catalog-actions">
+                        <a class="course-link"
+                           asp-controller="Course"
+                           asp-action="Details"
+                           asp-route-id="@item.CourseId"
+                           aria-label="View @item.CourseName details">
+                            <span>View course</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="m9 18 6-6-6-6"></path>
+                            </svg>
+                        </a>
+                            @if (!string.IsNullOrWhiteSpace(currentUserId)
+                                && item.CreatedByUserId == currentUserId)
+                            {
+                                <div class="catalog-owner-actions" aria-label="Manage @item.CourseName">
+                                    <a asp-controller="Course" asp-action="Edit" asp-route-id="@item.CourseId"
+                                       class="catalog-owner-link" aria-label="Edit @item.CourseName">Edit</a>
+                                    <a asp-controller="Course" asp-action="Delete" asp-route-id="@item.CourseId"
+                                       class="catalog-owner-link catalog-owner-link--danger"
+                                       aria-label="Review deletion of @item.CourseName">Delete</a>
+                                </div>
+                            }
+                        </div>
+                    </article>
+                }
+            </div>
+
+            <div id="courseNoResults" class="catalog-no-results" hidden>
+                <h2>No matching courses</h2>
+                <p>Try a different course title or instructor name.</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="catalog-panel">
+            <div class="catalog-empty">
+                <div class="catalog-empty__mark" aria-hidden="true">AH</div>
+                <h2>The catalog is ready for its first course</h2>
+                <p>Courses will appear here as soon as they are added to AcademyHub.</p>
+            </div>
+        </div>
+    }
+
+    <section class="course-create" aria-labelledby="createCourseHeading">
+        <div>
+            <span class="course-create__eyebrow">Course management</span>
+            <h2 id="createCourseHeading">Add a new course</h2>
+            <p class="course-create__copy">
+                Create a learning track and assign it to an existing AcademyHub instructor.
+            </p>
+        </div>
+
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <form class="course-form" asp-controller="Course" asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="course-form__summary"></div>
+
+                <div class="course-field">
+                    <label asp-for="NewCourse.Title"></label>
+                    <input asp-for="NewCourse.Title" placeholder="e.g. ASP.NET Core MVC" autocomplete="off" />
+                    <span asp-validation-for="NewCourse.Title" class="course-field__error"></span>
+                </div>
+
+                <div class="course-field">
+                    <label asp-for="NewCourse.InstructorId"></label>
+                    <select asp-for="NewCourse.InstructorId" asp-items="Model.NewCourse.Instructors">
+                        <option value="">Choose an instructor</option>
+                    </select>
+                    <span asp-validation-for="NewCourse.InstructorId" class="course-field__error"></span>
+                </div>
+
+                <button class="course-form__button" type="submit">Create course</button>
+            </form>
+        }
+        else
+        {
+            <div class="course-create__locked">
+                Sign in to create a course. Visitors can continue browsing the public catalog and course details.
+            </div>
+        }
+    </section>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (() => {
+            document.querySelector('[data-dismiss-success]')?.addEventListener('click', () => {
+                document.querySelector('[data-success-message]')?.remove();
+            });
+
+            const input = document.getElementById('courseSearch');
+            const rows = [...document.querySelectorAll('[data-course-row]')];
+            const count = document.getElementById('courseResultCount');
+            const empty = document.getElementById('courseNoResults');
+
+            if (!input || rows.length === 0) return;
+
+            input.addEventListener('input', () => {
+                const query = input.value.trim().toLocaleLowerCase();
+                let visible = 0;
+
+                rows.forEach(row => {
+                    const matches = row.dataset.search.includes(query);
+                    row.hidden = !matches;
+                    if (matches) visible++;
+                });
+
+                count.textContent = `${visible} ${visible === 1 ? 'course' : 'courses'}`;
+                empty.hidden = visible !== 0;
+            });
+        })();
+    </script>
+}

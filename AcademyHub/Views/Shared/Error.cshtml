@@ -1,0 +1,22 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Something went wrong";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/error.css" asp-append-version="true" />
+}
+<section class="ah-error" aria-labelledby="error-title">
+    <span class="ah-error__symbol" aria-hidden="true">!</span>
+    <p class="ah-page-eyebrow">AcademyHub / Request interrupted</p>
+    <h1 id="error-title">Something went wrong.</h1>
+    <p class="ah-error__copy">We couldn't complete this request. Return to the course catalog and check the latest information before trying again.</p>
+    <p class="ah-error__warning">If you were saving a change, check whether it was applied before submitting it again.</p>
+    @if (Model.ShowRequestId)
+    {
+        <div class="ah-error__reference"><span>Request reference</span><code>@Model.RequestId</code></div>
+    }
+    <div class="ah-error__actions">
+        <a asp-controller="Course" asp-action="Index" class="ah-ui-button ah-ui-button--primary">Back to courses</a>
+        <a asp-controller="Home" asp-action="Index" class="ah-ui-button">Go home</a>
+    </div>
+</section>
