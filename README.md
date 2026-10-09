@@ -234,6 +234,33 @@ No automated test suite is included in this baseline description. Final clean-ch
 
 A separate future scope can add instructor/student management, enrollments and grades, explicit roles, server-side search/pagination, and automated tests. These are planned improvements, not features of this version.
 
+
 ## Screenshots
 
-Screenshots and a short walkthrough can be added after final setup verification. This README intentionally contains no broken screenshot links, fake usage statistics, or fabricated live-demo URL.
+### Home
+![AcademyHub home page](docs/screenshots/home.png)
+
+### Course catalog
+Public course browsing with an authenticated course-creation form. This screen shows the success message after creating a course with a demo account.
+
+![Course catalog after creating a demo course](docs/screenshots/course-catalog.png)
+
+### Course details and empty state
+Course information, instructor profile, and a clear empty state when no students are enrolled.
+
+![Course details with no enrollments](docs/screenshots/course-details-empty.png)
+
+### Edit course
+The edit form allows changes to the course title and assigned instructor.
+
+![Course edit form](docs/screenshots/course-edit.png)
+
+### Form validation
+Required-field errors are displayed in a summary and beside the relevant controls.
+
+![Course form showing required-field validation errors](docs/screenshots/course-validation.png)
+
+### Enrollment-aware deletion
+The deletion screen displays a warning and omits the delete action when the course has enrollment records.
+
+![Deletion unavailable for a course with an enrollment](docs/screenshots/course-delete-blocked.png)
