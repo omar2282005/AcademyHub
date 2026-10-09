@@ -41,12 +41,6 @@
 .ah-edit__note h2 { margin: 0 0 12px; font-size: 16px; }
 .ah-edit__note p { margin: 0; color: var(--ae-muted); font-size: 14px; }
 .ah-edit__note p + p { margin-top: 16px; }
-@media (prefers-color-scheme: dark) {
-    .ah-edit { --ae-ink: #f3f2ee; --ae-muted: #bab9b1; --ae-surface: #242420; --ae-soft: #2c2c27; --ae-border: #53534b; --ae-ember: #ffad79; }
-    .ah-edit .ah-edit__button--primary { background: #b94309; border-color: #b94309; }
-    .ah-edit .field-validation-error { color: #ffafa5; }
-    .ah-edit .validation-summary-errors { background: #3a2320; color: #ffafa5; }
-}
 @media (max-width: 680px) {
     .ah-edit { margin: 16px auto 40px; }
     .ah-edit__grid { grid-template-columns: minmax(0, 1fr); }
